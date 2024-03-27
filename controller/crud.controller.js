@@ -1,4 +1,5 @@
-const postgre = require('../database')
+const postgre = require('../database');
+const generateString = require('../utils/utils')
 const bookController = {
     verifyUser: async (req, res) => {
         console.log('GET ALL')
@@ -48,13 +49,15 @@ const bookController = {
         }
     },
     create: async (req, res) => {
+        console.log('req', req.body)
         try {
-            console.log('req', req.body)
-            const { _id, data } = req.body
-
+            const _id = generateString(10);
+            console.log('_id', _id)
+            const data = JSON.stringify(req.body);
+            console.log('date', data)
             const sql = 'INSERT INTO bigboyzlounge(_id, data) VALUES($1, $2) RETURNING *'
 
-            const { rows } = await postgre.query(sql, [_id, JSON.stringify(data)])
+            const { rows } = await postgre.query(sql, [_id, data])
 
             res.json({ msg: "OK", data: rows[0] })
 

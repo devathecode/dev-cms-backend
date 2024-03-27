@@ -8,7 +8,7 @@ const allowedOrigin = 'http://localhost:3000'; // Replace with the actual domain
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log('req.headers.origin', req.headers.origin)
+    console.log('req.headers.origin', req.headers)
     if (req.headers.origin === allowedOrigin) {
         res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
         next(); // Pass the request to the next middleware
