@@ -24,7 +24,7 @@ const bookController = {
     getAll: async (req, res) => {
         console.log('GET ALL')
         try {
-            const { rows } = await postgre.query("select * from bigboyzlounge");
+            const { rows } = await postgre.query("select * from contacts");
             /**
              * We can access data object from get request by using below code
              */
@@ -37,7 +37,7 @@ const bookController = {
     },
     getById: async (req, res) => {
         try {
-            const { rows } = await postgre.query("select * from bigboyzlounge where book_id = $1", [req.params.id])
+            const { rows } = await postgre.query("select * from contacts where book_id = $1", [req.params.id])
 
             if (rows[0]) {
                 return res.json({ msg: "OK", data: rows })
@@ -55,7 +55,7 @@ const bookController = {
             console.log('_id', _id)
             const data = JSON.stringify(req.body);
             console.log('date', data)
-            const sql = 'INSERT INTO bigboyzlounge(_id, data) VALUES($1, $2) RETURNING *'
+            const sql = 'INSERT INTO contacts(_id, data) VALUES($1, $2) RETURNING *'
 
             const { rows } = await postgre.query(sql, [_id, data])
 
@@ -69,7 +69,7 @@ const bookController = {
         try {
             const { name, price } = req.body
 
-            const sql = 'UPDATE bigboyzlounge set name = $1, price = $2 where book_id = $3 RETURNING *'
+            const sql = 'UPDATE contacts set name = $1, price = $2 where book_id = $3 RETURNING *'
 
             const { rows } = await postgre.query(sql, [name, price, req.params.id])
 
@@ -81,7 +81,7 @@ const bookController = {
     },
     deleteById: async (req, res) => {
         try {
-            const sql = 'DELETE FROM bigboyzlounge where book_id = $1 RETURNING *'
+            const sql = 'DELETE FROM contacts where book_id = $1 RETURNING *'
 
             const { rows } = await postgre.query(sql, [req.params.id])
 
